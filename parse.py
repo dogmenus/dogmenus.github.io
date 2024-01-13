@@ -11,7 +11,7 @@ days = {}
 timezone_offset = -4
 
 days["today"] = datetime.now(timezone(timedelta(hours=timezone_offset))).strftime('%Y-%m-%d')
-#days["tomorrow"] = (datetime.today() + timedelta(1)).strftime('%Y-%m-%d')
+days["tomorrow"] = (datetime.now(timezone(timedelta(hours=timezone_offset))) + timedelta(1)).strftime('%Y-%m-%d')
 
 for day in days:
     header = """<!DOCTYPE html>
