@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("SourceSansPro-Regular.otf");
+}
+
+body {
+	font-family: "Source Sans Pro";
+	font-size: 16pt;
+  color: #ffd60a;
+  background-color: #212529;
+}
+
+h1 {
+  font-size: 30pt;
+  margin: 0;
+}
+
+h2 {
+  font-size: 18pt;
+  margin: 0;
+}
+
+h3 {
+  font-size: 16;
+}
+
+p {
+  margin: 0;
+}
+
+p.sub {
+  font-size: 12pt;
+}
+
+p.smol {
+  font-size: 11pt;
+  font-style: italic;
+  color: #98872f;
+  margin-bottom: 20px;
+}
+
+a {
+  color: #ffd60a;
+}
+
+hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+div.meal_selector {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  text-align: center;
+  width: 80%;
+  min-width: 350px;
+  max-width: 500px;
+}
+
+div.title {
+  text-align: center;
+  margin: 0;
+}
+
+div.tray {
+  margin: 0;
+  margin-top: 14px;
+  text-align: center;
+  width: 100%;
+}
+
+div.slice {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px;
+	padding: 20px;
+  background-color: #343a40;
+  border-radius: 10px;
+  width: 250px;
+}
