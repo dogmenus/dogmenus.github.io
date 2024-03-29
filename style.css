@@ -20,8 +20,13 @@ h2 {
   margin: 0;
 }
 
-h3 {
-  font-size: 16;
+h2.days {
+  font-size: 10pt;
+}
+
+h4 {
+  font-size: 16pt;
+  margin: 0;
 }
 
 p {
