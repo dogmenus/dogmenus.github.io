@@ -1,6 +1,12 @@
 import requests
 import json
 from datetime import datetime, timezone, timedelta
+import sys
+import time
+
+headers = {
+    'User-Agent': 'Mozilla/5.0'
+}
 
 url = "https://api.dineoncampus.com/v1/location/64b9990ec625af0685fb939d/periods/{0}?platform=0&date={1}"
 
@@ -10,8 +16,11 @@ days = {}
 
 timezone_offset = -4
 
-days["today"] = datetime.now(timezone(timedelta(hours=timezone_offset))).strftime('%Y-%m-%d')
-days["tomorrow"] = (datetime.now(timezone(timedelta(hours=timezone_offset))) + timedelta(1)).strftime('%Y-%m-%d')
+days["Today"] = datetime.now(timezone(timedelta(hours=timezone_offset))).strftime('%Y-%m-%d')
+days["Tomorrow"] = (datetime.now(timezone(timedelta(hours=timezone_offset))) + timedelta(1)).strftime('%Y-%m-%d')
+
+print(days)
+
 
 for day in days:
     header = """<!DOCTYPE html>
@@ -23,28 +32,40 @@ for day in days:
     <script src="js/meal_handler.js"></script>
   </head>
 
-  <body>
-    <div class="meal_selector">
-        <h2><a href="#" onclick="breakfast()">Breakfast</a></h2>
-        <h2><a href="#" onclick="lunch()">Lunch</a></h2>
-        <h2><a href="#" onclick="dinner()">Dinner</a></h2>
-    </div>
-"""
-    body = ""
+  <body>"""
+
+    meal_selector = """
+    <div class=\"meal_selector\">
+      <h2 class="days" id="today"><a href="today.html"><span>&lt;</span> Prev</a></hr>
+      <h2><a href=\"#\" onclick=\"breakfast()\">Breakfast</a></h2>
+      <h2><a href=\"#\" onclick=\"lunch()\">Lunch</a></h2>
+      <h2><a href=\"#\" onclick=\"dinner()\">Dinner</a></h2>
+      <h2 class="days" id="tomorrow"><a href="tomorrow.html">Next<span>&gt;</span></a></hr>
+    </div>"""
+
+    body = header + meal_selector
+
     for meal in meals:
-        data = requests.get(url.format(meals[meal], days[day])).json()
+        time.sleep(3)
+        request = requests.get(url.format(meals[meal], days[day]), headers=headers)
+        request.raise_for_status()
+        if request.status_code != 204:
+            data = request.json()
+        else:
+            print("It's probably time to use selenium...")
+            sys.exit()
 
         body = body + f"<div id=\"{meal.lower()}\">\n"
-        body = body + f"<div class=\"title\">\n<h1>Wadsworth {meal}</h1>\n<p class=\"sub\">Updated: "
+        body = body + f"<div class=\"title\">\n<h1>Wadsworth {meal} {day}</h1>\n<p class=\"sub\">Updated: "
         body = body + str(datetime.now(timezone(timedelta(hours=timezone_offset))).strftime('%a %b %-d at %-I:%M %p\n'))
         body = body + "</p>\n</div>\n<div class=\"tray\">\n"
-
+        
         empty_stations = ""
         for station in data["menu"]["periods"]["categories"]:
             if len(station["items"]) > 0:
                 body = body + "<div class=\"slice\">\n<h2>{0}</h2>\n<hr>\n".format(station["name"])
                 for item in station["items"]:
-                    body = body + "<h3>{0}</h3>\n".format(item["name"])
+                    body = body + "<p>{0}</p>\n".format(item["name"])
                     if item["desc"]:
                         body = body + "<p class=\"smol\">{0}</p>\n".format(item["desc"])
                     else:
@@ -58,7 +79,10 @@ for day in days:
 
     footer = "</body></html>"
 
-    with open(f"{day}.html", 'w') as file:
+    lower_day = day.lower()
+
+    with open(f"{lower_day}.html", 'w') as file:
         file.write(header+body+footer)
+
 
 print(header+body+footer)
