@@ -13,6 +13,13 @@ function onLoaded() {
   else {
     dinner()
   }
+
+  if (window.location.href.includes("tomorrow")) {
+    document.getElementById("tomorrow").style.visibility = "hidden";
+  }
+  else {
+    document.getElementById("today").style.visibility = "hidden";
+  }
 }
 
 function breakfast() {
