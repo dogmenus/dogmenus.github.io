@@ -69,7 +69,7 @@ for hall in halls:
             body = body + f"<div class=\"title\">\n<h1>{hall} {meal} {day}</h1>\n<p class=\"sub\">Updated: "
             body = body + str(datetime.now(timezone(timedelta(hours=timezone_offset))).strftime('%a %b %-d at %-I:%M %p\n'))+ "</p>"
 
-            if data["menu"]["periods"] == None:
+            if data["closed"] == True or data["menu"]["periods"] == None:
                 body = body + "<br><h2>It doesn't look like this hall is open for this meal...</h2><br><br>"
             else:
                 body = body + "</p>\n</div>\n<div class=\"tray\">\n"
