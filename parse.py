@@ -4,8 +4,7 @@ from datetime import datetime, timezone, timedelta
 import sys
 import time
 
-headers = {
-    'User-Agent': 'Mozilla/5.0'
+headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'
 }
 
 period_url = "https://api.dineoncampus.com/v1/location/{0}/periods?platform=0&date={1}"
@@ -53,8 +52,8 @@ for hall in halls:
 
         url_string = period_url.format(halls[hall], days[day])
         print(f"Fetching periods from {url_string}")
-        request = requests.get(url_string, headers=headers)
-        time.sleep(3)
+        request = requests.get(url_string, headers=headers, timeout=20)
+        time.sleep(6)
         request.raise_for_status()
         if request.status_code != 204:
             data = request.json()
@@ -88,8 +87,8 @@ for hall in halls:
             else:
                 url_string = food_url.format(halls[hall], meals[meal], days[day])
                 print(f"Fetching {url_string}")
-                request = requests.get(url_string, headers=headers)
-                time.sleep(3)
+                request = requests.get(url_string, headers=headers, timeout=20)
+                time.sleep(6)
                 request.raise_for_status()
                 if request.status_code != 204:
                     data = request.json()
@@ -125,4 +124,3 @@ for hall in halls:
         with open(f"{lower_hall}/{lower_day}.html", 'w') as file:
             file.write(header+body+footer)
             print(f"Completed {hall} {lower_day}!")
-
