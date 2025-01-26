@@ -4,8 +4,19 @@ from datetime import datetime, timezone, timedelta
 import sys
 import time
 
-headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'
-}
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+headers = {'Host': 'api.dineoncampus.com',
+'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0',
+'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+'Accept-Language': 'en-US,en;q=0.5',
+'Referer': 'https://dineoncampus.com/',
+'Origin': 'https://dineoncampus.com',
+'DNT': '1',
+'Connection': 'keep-alive',
+'Upgrade-Insecure-Requests': '1',
+'Priority': 'u=0, i'}
+
 
 period_url = "https://api.dineoncampus.com/v1/location/{0}/periods?platform=0&date={1}"
 
@@ -124,3 +135,4 @@ for hall in halls:
         with open(f"{lower_hall}/{lower_day}.html", 'w') as file:
             file.write(header+body+footer)
             print(f"Completed {hall} {lower_day}!")
+
